@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,9 @@ public class QuestionController {
     }
 
     @PostMapping
-    public Question addQuestion(@RequestBody Question question) {
-        return this.questionService.create(question);
+    public QuestionDto addQuestion(@RequestBody QuestionDto questionDto) {
+        Question question = convertToEntity(questionDto);
+        return convertToDto(this.questionService.create(question));
     }
 
     @PutMapping
@@ -46,9 +48,10 @@ public class QuestionController {
     }
 
     private QuestionDto convertToDto(Question question) {
-        //QuestionDto countryDto = this.modelMapper.map(question, QuestionDto.class);
-//        countryDto.setSubmissionDate(country.getSubmissionDate(),
-//                userService.getCurrentUser().getPreference().getTimezone());
         return this.modelMapper.map(question, QuestionDto.class);
+    }
+
+    private Question convertToEntity(QuestionDto questionDto) {
+        return this.modelMapper.map(questionDto, Question.class);
     }
 }

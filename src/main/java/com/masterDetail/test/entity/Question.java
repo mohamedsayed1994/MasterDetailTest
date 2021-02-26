@@ -19,7 +19,7 @@ public class Question {
     private Long id;
     @Column(name = "question_name")
     private String name;
-//    @OneToMany
-//    @JoinColumn(name = "question_id")
-//    private List<QuestionAnswer> questionAnswers;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id")
+    private List<QuestionAnswer> questionAnswers;
 }
